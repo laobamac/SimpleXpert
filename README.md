@@ -2,6 +2,10 @@
 
 SimpleXpert 是一款专业的黑苹果(Hackintosh)工具集，旨在简化黑苹果安装和配置过程。提供从硬件检测到系统配置的一站式解决方案。
 
+------
+技术栈：![windows](https://img.shields.io/badge/windows-0078D6?logo=windows&logoColor=white) ![macos](https://img.shields.io/badge/macOS-000000?logo=macos) ![Python](https://img.shields.io/badge/Python-14354C.svg?logo=python&logoColor=white) ![HTML5](https://img.shields.io/badge/HTML5-E34F26.svg?logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6.svg?logo=css3&logoColor=white) ![Github](https://img.shields.io/badge/Github-100000.svg?logo=github&logoColor=white) ![VSCode](https://img.shields.io/badge/VSCode-007ACC?logo=visual-studio-code&logoColor=white) ![VueJS](https://img.shields.io/badge/Vue.js-35495e.svg?logo=vue.js&logoColor=4FC08D) ![Node](https://img.shields.io/badge/Node.js-43853D.svg?logo=node.js&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-323330.svg?logo=javascript&logoColor=F7DF1E)
+------
+
 ## 🚀 功能概览
 
 | 功能模块       | 主要特性                                                                 |
