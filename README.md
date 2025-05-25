@@ -19,7 +19,7 @@ SimpleXpert 是一款专业的黑苹果(Hackintosh)工具集，旨在简化黑�
 ## 📦 安装方法
 
 ### 预编译版本
-从 [Releases 页面](https://github.com/yourusername/SimpleXpert/releases) 下载对应系统的安装包。
+从 [Releases 页面](https://github.com/laobamac/SimpleXpert/releases) 下载对应系统的安装包。
 
 ### 从源码构建
 ```bash
