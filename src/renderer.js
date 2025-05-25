@@ -519,15 +519,15 @@ function renderHardwareInfo(info) {
             <div class="card-icon">
                 <i class="fas fa-bullhorn"></i>
             </div>
-        </div>
-        <div class="announcement-content">
-            <p>欢迎使用 SimpleXpert 黑苹果专家工具 v1.0.0！</p>
-            <p>本版本新增功能：</p>
+            </div>
+            <div class="announcement-content">
+            <p>欢迎使用 SimpleXpert 黑苹果辅助工具 v0.0.1b1！</p>
+            <p>此版本是开发时预览</p>
+            <p>测试功能：</p>
             <ul>
-                <li>支持13代Intel处理器SSDT自动生成</li>
-                <li>新增USB端口一键定制功能</li>
-                <li>优化了硬件信息检测准确性</li>
+            <li>AAAAAAAAAAAAA</li>
             </ul>
+            <p>如有任何问题，请通过GitHub提交issue。</p>
             <p>检测到您的硬件配置：${info.cpu.brand} + ${info.graphics.controllers[0]?.name || '未知显卡'}</p>
         </div>
     `;
