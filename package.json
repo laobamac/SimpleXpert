@@ -1,7 +1,7 @@
 {
   "name": "simplexpert",
-  "version": "1.0.0",
-  "description": "黑苹果辅助工具",
+  "version": "0.0.1b1",
+  "description": "一个苦逼高中生闲着没事搞的小玩具",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
@@ -10,18 +10,21 @@
     "watch": "nodemon --watch src --exec electron ."
   },
   "build": {
-    "appId": "com.simplexpert.app",
+    "appId": "com.laobamac.simplexpert.app",
     "productName": "SimpleXpert",
-    "copyright": "Copyright © 2023",
+    "copyright": "Copyright © 2025 laobamac",
     "mac": {
       "category": "public.app-category.utilities",
+      "icon": "assets/icons/icon.png",
       "target": "dmg"
     },
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "assets/icons/icon.png"
     },
     "linux": {
-      "target": "AppImage"
+      "target": "AppImage",
+      "icon": "assets/icons/icon.png"
     },
     "files": [
       "src/**/*",
@@ -33,7 +36,7 @@
     "Hackintosh",
     "macOS"
   ],
-  "author": "Your Name",
+  "author": "laobamac",
   "license": "MIT",
   "devDependencies": {
     "electron": "^23.0.0",
@@ -42,6 +45,7 @@
   },
   "dependencies": {
     "axios": "^1.9.0",
+    "systeminformation": "^5.27.0",
     "tar": "^7.4.3"
   }
 }
