@@ -1,0 +1,47 @@
+{
+  "name": "simplexpert",
+  "version": "1.0.0",
+  "description": "黑苹果辅助工具",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "watch": "nodemon --watch src --exec electron ."
+  },
+  "build": {
+    "appId": "com.simplexpert.app",
+    "productName": "SimpleXpert",
+    "copyright": "Copyright © 2023",
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    },
+    "files": [
+      "src/**/*",
+      "node_modules/**/*"
+    ]
+  },
+  "keywords": [
+    "黑苹果",
+    "Hackintosh",
+    "macOS"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^23.0.0",
+    "electron-builder": "^23.6.0",
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "axios": "^1.9.0",
+    "tar": "^7.4.3"
+  }
+}

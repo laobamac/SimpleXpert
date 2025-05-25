@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimpleXpert - 黑苹果专家工具</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">SX</div>
+                    <div class="logo-text">SimpleXpert</div>
+                </div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-item active" data-page="overview">
+                    <i class="fas fa-home"></i>
+                    <span class="nav-text">概览</span>
+                </div>
+                <div class="nav-item" data-page="ssdt">
+                    <i class="fas fa-code"></i>
+                    <span class="nav-text">SSDT定制</span>
+                </div>
+                <div class="nav-item" data-page="usb">
+                    <i class="fas fa-usb"></i>
+                    <span class="nav-text">USB定制</span>
+                </div>
+                <div class="nav-item" data-page="download">
+                    <i class="fas fa-download"></i>
+                    <span class="nav-text">镜像下载</span>
+                </div>
+                <div class="nav-item" data-page="tools">
+                    <i class="fas fa-tools"></i>
+                    <span class="nav-text">辅助工具</span>
+                </div>
+                <div class="nav-item" data-page="about">
+                    <i class="fas fa-info-circle"></i>
+                    <span class="nav-text">关于</span>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <div class="nav-text">Version 1.0.0</div>
+            </div>
+        </div>
+
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <!-- 标题栏 -->
+            <div class="titlebar">
+                <div class="window-title">SimpleXpert - 黑苹果专家工具</div>
+                <div class="window-controls">
+                    <div class="window-btn minimize" onclick="window.electronAPI.windowControl('minimize')"></div>
+                    <div class="window-btn maximize" onclick="window.electronAPI.windowControl('maximize')"></div>
+                    <div class="window-btn close" onclick="window.electronAPI.windowControl('close')"></div>
+                </div>
+            </div>
+
+            <!-- 内容区 -->
+            <div class="content">
+                <!-- 概览页面 -->
+                <div class="page-container" id="overview-page">
+                    <div class="overview-page">
+                        <!-- 硬件信息卡片 -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">系统信息</div>
+                                <div class="card-icon">
+                                    <i class="fas fa-desktop"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="info-row">
+                                    <span class="info-label">操作系统</span>
+                                    <span class="info-value">Windows 11 Pro</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">版本</span>
+                                    <span class="info-value">22H2</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">系统类型</span>
+                                    <span class="info-value">64位</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">处理器</div>
+                                <div class="card-icon">
+                                    <i class="fas fa-microchip"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="info-row">
+                                    <span class="info-label">型号</span>
+                                    <span class="info-value">Intel Core i9-13900K</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">核心数</span>
+                                    <span class="info-value">24 (8P+16E)</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">频率</span>
+                                    <span class="info-value">3.0 GHz (5.8 GHz Turbo)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">主板</div>
+                                <div class="card-icon">
+                                    <i class="fas fa-circuit-board"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="info-row">
+                                    <span class="info-label">制造商</span>
+                                    <span class="info-value">ASUS</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">型号</span>
+                                    <span class="info-value">ROG MAXIMUS Z790 HERO</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">BIOS版本</span>
+                                    <span class="info-value">1602</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">内存</div>
+                                <div class="card-icon">
+                                    <i class="fas fa-memory"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="info-row">
+                                    <span class="info-label">总容量</span>
+                                    <span class="info-value">32 GB</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">类型</span>
+                                    <span class="info-value">DDR5</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">频率</span>
+                                    <span class="info-value">6000 MHz</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">显卡</div>
+                                <div class="card-icon">
+                                    <i class="fas fa-video"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="info-row">
+                                    <span class="info-label">主显卡</span>
+                                    <span class="info-value">NVIDIA GeForce RTX 4090</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">显存</span>
+                                    <span class="info-value">24 GB GDDR6X</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">核显</span>
+                                    <span class="info-value">Intel UHD Graphics 770</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">存储</div>
+                                <div class="card-icon">
+                                    <i class="fas fa-hdd"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="info-row">
+                                    <span class="info-label">主硬盘</span>
+                                    <span class="info-value">Samsung 980 Pro 1TB</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">次硬盘</span>
+                                    <span class="info-value">WD Black SN850X 2TB</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">总容量</span>
+                                    <span class="info-value">3 TB</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">网络</div>
+                                <div class="card-icon">
+                                    <i class="fas fa-network-wired"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="info-row">
+                                    <span class="info-label">有线网卡</span>
+                                    <span class="info-value">Intel I225-V 2.5GbE</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">无线网卡</span>
+                                    <span class="info-value">Intel Wi-Fi 6E AX210</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">蓝牙</span>
+                                    <span class="info-value">Bluetooth 5.3</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">音频</div>
+                                <div class="card-icon">
+                                    <i class="fas fa-volume-up"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="info-row">
+                                    <span class="info-label">编解码器</span>
+                                    <span class="info-value">ALC4082</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">控制器</span>
+                                    <span class="info-value">Realtek USB Audio</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 公告卡片 -->
+                        <div class="card announcement-card">
+                            <div class="card-header">
+                                <div class="card-title">软件公告</div>
+                                <div class="card-icon">
+                                    <i class="fas fa-bullhorn"></i>
+                                </div>
+                            </div>
+                            <div class="announcement-content">
+                                <p>欢迎使用 SimpleXpert 黑苹果专家工具 v1.0.0！</p>
+                                <p>本版本新增功能：</p>
+                                <ul>
+                                    <li>支持13代Intel处理器SSDT自动生成</li>
+                                    <li>新增USB端口一键定制功能</li>
+                                    <li>优化了硬件信息检测准确性</li>
+                                </ul>
+                                <p>如有任何问题，请通过GitHub提交issue。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SSDT定制页面 -->
+                <div class="page-container" id="ssdt-page" style="display: none;">
+                    <div class="ssdt-page">
+                        <h2>SSDT热补丁定制</h2>
+                        <p class="card-body">根据您的硬件配置生成适合的SSDT热补丁，用于解决黑苹果系统的ACPI问题。</p>
+                        
+                        <div class="ssdt-controls">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-magic"></i> 自动生成SSDT
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-upload"></i> 导入现有SSDT
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-download"></i> 导出SSDT
+                            </button>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">SSDT补丁列表</div>
+                                <div class="card-icon">
+                                    <i class="fas fa-list"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="info-row">
+                                    <span class="info-label">SSDT-PLUG</span>
+                                    <span class="info-value">CPU电源管理</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">SSDT-AWAC</span>
+                                    <span class="info-value">系统时钟修复</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">SSDT-EC-USBX</span>
+                                    <span class="info-value">嵌入式控制器</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">SSDT-PMC</span>
+                                    <span class="info-value">NVRAM支持</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">生成的SSDT代码</div>
+                                <div class="card-icon">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                            </div>
+                            <pre class="ssdt-output">
+/*
+ * Intel ACPI Component Architecture
+ * AML/ASL+ Disassembler version 20200925 (64-bit version)
+ * ...
+ */
+
+DefinitionBlock ("", "SSDT", 2, "ACDT", "CPUPLUG", 0x00000000)
+{
+    External (_SB_.PCI0, DeviceObj)
+    External (_SB_.PCI0.LPCB, DeviceObj)
+    
+    Scope (\_SB.PCI0.LPCB)
+    {
+        Device (EC)
+        {
+            Name (_HID, "ACPI000D")  // _HID: Hardware ID
+            Name (_UID, One)  // _UID: Unique ID
+            Name (_GPE, 0x1B)  // _GPE: General Purpose Events
+            Method (_REG, 2, NotSerialized)  // _REG: Region Availability
+            {
+                If (_OSI ("Darwin"))
+                {
+                    Store (0x0D, DBG8)
+                }
+            }
+        }
+    }
+    
+    Scope (\)
+    {
+        Method (DTGP, 5, NotSerialized)
+        {
+            If ((Arg0 == ToUUID ("a0b5b7c6-1318-441c-b0c9-fe695eaf949b")))
+            {
+                If ((Arg1 == One))
+                {
+                    If ((Arg2 == Zero))
+                    {
+                        Store (Buffer (One) { 0x03 }, Arg4)
+                        Return (One)
+                    }
+                    
+                    If ((Arg2 == One))
+                    {
+                        Return (One)
+                    }
+                }
+            }
+            
+            Store (Buffer (One) { 0x00 }, Arg4)
+            Return (Zero)
+        }
+    }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- USB定制页面 -->
+                <div class="page-container" id="usb-page" style="display: none;">
+                    <div class="usb-page">
+                        <h2>USB端口定制</h2>
+                        <p class="card-body">检测并定制您的USB端口，确保黑苹果系统下所有USB设备正常工作。</p>
+                        
+                        <div class="ssdt-controls">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-sync-alt"></i> 重新扫描USB端口
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-magic"></i> 一键定制USB
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-download"></i> 导出USBMap.kext
+                            </button>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">USB端口信息</div>
+                                <div class="card-icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p>已检测到 <strong>15个USB端口</strong>，其中 <strong>5个需要定制</strong>。</p>
+                                <p>建议保留不超过15个USB端口(包含内部设备)以确保兼容性。</p>
+                            </div>
+                        </div>
+
+                        <h3>USB端口列表</h3>
+                        <div class="usb-ports">
+                            <div class="usb-port active">
+                                <div class="usb-port-header">
+                                    <div class="usb-port-name">HS01</div>
+                                    <div class="usb-port-type">USB 2.0</div>
+                                </div>
+                                <div class="usb-port-info">
+                                    <p>位置: 主板后置IO</p>
+                                    <p>连接设备: 键盘</p>
+                                </div>
+                            </div>
+
+                            <div class="usb-port active">
+                                <div class="usb-port-header">
+                                    <div class="usb-port-name">HS02</div>
+                                    <div class="usb-port-type">USB 2.0</div>
+                                </div>
+                                <div class="usb-port-info">
+                                    <p>位置: 主板后置IO</p>
+                                    <p>连接设备: 鼠标</p>
+                                </div>
+                            </div>
+
+                            <div class="usb-port">
+                                <div class="usb-port-header">
+                                    <div class="usb-port-name">HS03</div>
+                                    <div class="usb-port-type">USB 2.0</div>
+                                </div>
+                                <div class="usb-port-info">
+                                    <p>位置: 机箱前置</p>
+                                    <p>连接设备: 无</p>
+                                </div>
+                            </div>
+
+                            <div class="usb-port active">
+                                <div class="usb-port-header">
+                                    <div class="usb-port-name">SS01</div>
+                                    <div class="usb-port-type">USB 3.2</div>
+                                </div>
+                                <div class="usb-port-info">
+                                    <p>位置: 主板后置IO</p>
+                                    <p>连接设备: 外置硬盘</p>
+                                </div>
+                            </div>
+
+                            <div class="usb-port">
+                                <div class="usb-port-header">
+                                    <div class="usb-port-name">SS02</div>
+                                    <div class="usb-port-type">USB 3.2</div>
+                                </div>
+                                <div class="usb-port-info">
+                                    <p>位置: 主板后置IO</p>
+                                    <p>连接设备: 无</p>
+                                </div>
+                            </div>
+
+                            <div class="usb-port active">
+                                <div class="usb-port-header">
+                                    <div class="usb-port-name">HS04</div>
+                                    <div class="usb-port-type">USB 2.0</div>
+                                </div>
+                                <div class="usb-port-info">
+                                    <p>位置: 内部</p>
+                                    <p>连接设备: 蓝牙模块</p>
+                                </div>
+                            </div>
+
+                            <div class="usb-port active">
+                                <div class="usb-port-header">
+                                    <div class="usb-port-name">HS05</div>
+                                    <div class="usb-port-type">USB 2.0</div>
+                                </div>
+                                <div class="usb-port-info">
+                                    <p>位置: 内部</p>
+                                    <p>连接设备: 摄像头</p>
+                                </div>
+                            </div>
+
+                            <div class="usb-port">
+                                <div class="usb-port-header">
+                                    <div class="usb-port-name">SS03</div>
+                                    <div class="usb-port-type">USB 3.2</div>
+                                </div>
+                                <div class="usb-port-info">
+                                    <p>位置: 机箱前置</p>
+                                    <p>连接设备: 无</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 镜像下载页面 -->
+                <div class="page-container" id="download-page" style="display: none;">
+                    <div class="download-page">
+                        <h2>镜像下载</h2>
+                        <p class="card-body">下载黑苹果安装镜像和相关恢复包。</p>
+        
+                        <div class="download-sections">
+                            <div class="download-section">
+                                <div class="section-header">
+                                    <i class="fas fa-compact-disc"></i>
+                                    <h3>三分区镜像</h3>
+                                </div>
+                                <div class="section-description">
+                                    <p>包含完整安装镜像、OpenCore引导和PE工具的三分区镜像，适合直接写入U盘使用。</p>
+                                </div>
+                                <div class="dmg-list" id="dmg-list-container">
+                                    <!-- 动态加载内容 -->
+                                </div>
+                            </div>
+            
+                            <div class="download-section">
+                                <div class="section-header">
+                                    <i class="fas fa-cloud-download-alt"></i>
+                                    <h3>在线恢复包</h3>
+                                </div>
+                                <div class="section-description">
+                                    <p>从SimpleHac服务器直接下载macOS的在线恢复包，复制链接后使用其他工具下载。</p>
+                                </div>
+                                <div class="recovery-list">
+                                    <!-- 动态加载内容 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 辅助工具页面 -->
+                <div class="page-container" id="tools-page" style="display: none;">
+                    <div class="tools-page">
+                        <h2>辅助工具</h2>
+                        <p class="card-body" style="grid-column: 1 / -1;">各种有用的黑苹果辅助工具。</p>
+                        
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-compact-disc"></i>
+                            </div>
+                            <div class="tool-name">DMG烧录</div>
+                            <div class="tool-desc">将DMG镜像烧录到U盘</div>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-tv"></i>
+                            </div>
+                            <div class="tool-name">EDID提取</div>
+                            <div class="tool-desc">提取显示器EDID信息</div>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-image"></i>
+                            </div>
+                            <div class="tool-name">PNG转ICNS</div>
+                            <div class="tool-desc">将PNG图标转换为macOS ICNS格式</div>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="tool-name">驱动加速下载</div>
+                            <div class="tool-desc">加速下载常用黑苹果驱动</div>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-keyboard"></i>
+                            </div>
+                            <div class="tool-name">键盘映射</div>
+                            <div class="tool-desc">修改键盘键位映射</div>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-plug"></i>
+                            </div>
+                            <div class="tool-name">HIDPI开启</div>
+                            <div class="tool-desc">为普通显示器开启HIDPI</div>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-terminal"></i>
+                            </div>
+                            <div class="tool-name">EFI Shell</div>
+                            <div class="tool-desc">启动EFI Shell环境</div>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="tool-name">Config检查</div>
+                            <div class="tool-desc">检查OpenCore配置文件</div>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-hdd"></i>
+                            </div>
+                            <div class="tool-name">NVMe修复</div>
+                            <div class="tool-desc">修复NVMe SSD睡眠问题</div>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-wifi"></i>
+                            </div>
+                            <div class="tool-name">Wi-Fi修复</div>
+                            <div class="tool-desc">修复Intel Wi-Fi驱动问题</div>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-bluetooth"></i>
+                            </div>
+                            <div class="tool-name">蓝牙修复</div>
+                            <div class="tool-desc">修复蓝牙连接问题</div>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-sync-alt"></i>
+                            </div>
+                            <div class="tool-name">三码生成</div>
+                            <div class="tool-desc">生成随机的SMBIOS三码</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 关于页面 -->
+                <div class="page-container" id="about-page" style="display: none;">
+                    <div class="about-page">
+                        <div class="about-card">
+                            <div class="about-header">
+                                <div class="logo">
+                                    <div class="logo-icon large">SX</div>
+                                    <div class="logo-text large">SimpleXpert</div>
+                                </div>
+                                <div class="version">版本 1.0.0</div>
+                            </div>
+                            
+                            <div class="about-content">
+                                <p>SimpleXpert 是一款专业的黑苹果(Hackintosh)工具集，旨在简化黑苹果安装和配置过程。</p>
+                                
+                                <h3>主要功能</h3>
+                                <ul>
+                                    <li>SSDT热补丁自动生成</li>
+                                    <li>USB端口定制工具</li>
+                                    <li>macOS镜像下载</li>
+                                    <li>多种黑苹果辅助工具</li>
+                                </ul>
+                                
+                                <h3>系统要求</h3>
+                                <ul>
+                                    <li>Windows 10/11 64位</li>
+                                    <li>macOS 11.0+ (用于部分功能)</li>
+                                    <li>4GB 内存</li>
+                                    <li>200MB 可用磁盘空间</li>
+                                </ul>
+                                
+                                <h3>开发者</h3>
+                                <p>SimpleXpert 由黑苹果爱好者社区开发维护。</p>
+                                
+                                <div class="social-links">
+                                    <a href="https://github.com/simplexpert" target="_blank" class="social-link">
+                                        <i class="fab fa-github"></i> GitHub
+                                    </a>
+                                    <a href="https://forum.example.com" target="_blank" class="social-link">
+                                        <i class="fas fa-users"></i> 社区论坛
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="about-footer">
+                                <p>© 2025 laobamac 保留所有权利。</p>
+                                <p>本软件为开源项目，遵循 MIT 许可证。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>
