@@ -18,7 +18,7 @@ function createWindow() {
       enableRemoteModule: false,
       nodeIntegration: false
     },
-    icon: path.join(__dirname, 'assets/icons/icon.png')
+    icon: path.join(__dirname, 'assets/icons/icon.ico')
   });
 
   // 加载应用界面
@@ -158,6 +158,113 @@ ipcMain.handle('generate-signed-url', async (event, url) => {
         console.error('生成签名URL失败:', error);
         return null;
     }
+});
+
+ipcMain.handle('get-hardware-info', async () => {
+  try {
+    const os = require('os');
+    const si = require('systeminformation');
+    
+    // 获取基础系统信息
+    const system = await si.system();
+    const bios = await si.bios();
+    const cpu = await si.cpu();
+    const mem = await si.mem();
+    const graphics = await si.graphics();
+    const diskLayout = await si.diskLayout();
+    const networkInterfaces = await si.networkInterfaces();
+    
+    // 处理网络接口信息
+    const network = networkInterfaces
+      .filter(iface => !iface.internal)
+      .map(iface => ({
+        name: iface.ifaceName,
+        type: iface.type,
+        mac: iface.mac,
+        speed: iface.speed,
+        ip4: iface.ip4,
+        ip6: iface.ip6
+      }));
+    
+    // 处理磁盘信息
+    const disks = diskLayout.map(disk => ({
+      name: disk.name,
+      type: disk.type,
+      size: (disk.size / (1024 ** 3)).toFixed(2) + ' GB',
+      interfaceType: disk.interfaceType
+    }));
+    
+    // 处理显卡信息
+    const gpus = graphics.controllers.map(gpu => ({
+      name: gpu.model,
+      vendor: gpu.vendor,
+      vram: gpu.vram ? (gpu.vram / 1024).toFixed(2) + ' GB' : 'N/A',
+      bus: gpu.bus
+    }));
+    
+    // 处理显示器信息
+    const displays = graphics.displays.map(display => ({
+      model: display.model,
+      resolution: `${display.resolutionX}x${display.resolutionY}`,
+      vendor: display.vendor,
+      size: display.sizeX && display.sizeY 
+        ? `${Math.sqrt(display.sizeX**2 + display.sizeY**2).toFixed(1)} inch` 
+        : 'N/A'
+    }));
+    
+    return {
+      status: 'success',
+      data: {
+        os: {
+          platform: os.platform(),
+          release: os.release(),
+          arch: os.arch(),
+          version: os.version()
+        },
+        system: {
+          manufacturer: system.manufacturer,
+          model: system.model,
+          version: system.version,
+          serial: system.serial,
+          uuid: system.uuid,
+          sku: system.sku
+        },
+        bios: {
+          vendor: bios.vendor,
+          version: bios.version,
+          releaseDate: bios.releaseDate,
+          revision: bios.revision
+        },
+        cpu: {
+          manufacturer: cpu.manufacturer,
+          brand: cpu.brand,
+          speed: cpu.speed + ' GHz',
+          speedMax: cpu.speedMax + ' GHz',
+          cores: cpu.cores,
+          physicalCores: cpu.physicalCores,
+          processors: cpu.processors,
+          socket: cpu.socket,
+          cache: cpu.cache
+        },
+        memory: {
+          total: (mem.total / (1024 ** 3)).toFixed(2) + ' GB',
+          free: (mem.free / (1024 ** 3)).toFixed(2) + ' GB'
+        },
+        graphics: {
+          controllers: gpus,
+          displays: displays
+        },
+        disks: disks,
+        network: network
+      }
+    };
+  } catch (error) {
+    console.error('获取硬件信息失败:', error);
+    return {
+      status: 'error',
+      message: '无法获取硬件信息: ' + error.message
+    };
+  }
 });
 
 // 安全处理 - 确保只允许加载本地内容

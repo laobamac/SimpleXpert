@@ -6,5 +6,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     onNavigate: (callback) => ipcRenderer.on('navigate-to', callback),
     getDmgList: () => ipcRenderer.invoke('get-dmg-list'),
     copyToClipboard: (text) => ipcRenderer.invoke('copy-to-clipboard', text),
-    generateSignedUrl: (url) => ipcRenderer.invoke('generate-signed-url', url)
+    generateSignedUrl: (url) => ipcRenderer.invoke('generate-signed-url', url),
+    getHardwareInfo: () => ipcRenderer.invoke('get-hardware-info')
 });

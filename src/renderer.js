@@ -1,3 +1,5 @@
+let hardwareInfoLoaded = false;
+
 document.addEventListener('DOMContentLoaded', () => {
     // 页面切换逻辑
     document.querySelectorAll('.nav-item').forEach(item => {
@@ -23,6 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pageId === 'download-page') {
                 initDownloadPage();
                 initRecoveryPage();
+            }
+
+            // 如果切换到概览页面且未加载硬件信息，则加载
+            if (pageId === 'overview-page' && !hardwareInfoLoaded) {
+                loadHardwareInfo();
             }
         });
     });
@@ -61,6 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 初始化页面
     document.getElementById('overview-page').style.display = 'block';
+
+    loadHardwareInfo();
 });
 
 let isDownloadPageInitialized = false;
@@ -328,4 +337,246 @@ function renderRecoveryList(recoveryItems, showAll = false) {
         isRecoveryPageInitialized = false;
         initRecoveryPage();
     });
+}
+
+// 添加硬件信息加载函数
+async function loadHardwareInfo() {
+    if (hardwareInfoLoaded) return;
+    
+    const overviewPage = document.getElementById('overview-page');
+    if (!overviewPage) return;
+    
+    // 显示加载状态
+    const cardsContainer = overviewPage.querySelector('.overview-page');
+    cardsContainer.innerHTML = `
+        <div class="loading-state" style="grid-column: 1 / -1;">
+            <div class="spinner"></div>
+            <div>正在检测硬件信息...</div>
+        </div>
+    `;
+    
+    try {
+        const info = await window.electronAPI.getHardwareInfo();
+        if (info.status === 'success') {
+            renderHardwareInfo(info.data);
+            hardwareInfoLoaded = true;
+        } else {
+            throw new Error(info.message || '获取硬件信息失败');
+        }
+    } catch (error) {
+        cardsContainer.innerHTML = `
+            <div class="error-state" style="grid-column: 1 / -1;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>${error.message}</div>
+                <button class="btn btn-outline retry-btn">
+                    <i class="fas fa-sync-alt"></i> 重新加载
+                </button>
+            </div>
+        `;
+        document.querySelector('.retry-btn')?.addEventListener('click', loadHardwareInfo);
+    }
+}
+
+// 渲染硬件信息
+function renderHardwareInfo(info) {
+    const overviewPage = document.getElementById('overview-page');
+    if (!overviewPage) return;
+    
+    const cardsContainer = overviewPage.querySelector('.overview-page');
+    cardsContainer.innerHTML = '';
+    
+    // 系统信息卡片
+    cardsContainer.appendChild(createCard(
+        '系统信息',
+        'fas fa-desktop',
+        [
+            { label: '操作系统', value: `${info.os.platform === 'darwin' ? 'macOS' : 'Windows'} ${info.os.release}` },
+            { label: '系统架构', value: info.os.arch },
+            { label: '系统版本', value: info.os.version || 'N/A' }
+        ]
+    ));
+    
+    // 主板信息卡片
+    cardsContainer.appendChild(createCard(
+        '主板',
+        'fas fa-circuit-board',
+        [
+            { label: '制造商', value: info.system.manufacturer || '未知' },
+            { label: '型号', value: info.system.model || '未知' },
+            { label: '版本', value: info.system.version || 'N/A' },
+            { label: '序列号', value: info.system.serial || 'N/A' }
+        ]
+    ));
+    
+    // BIOS信息卡片
+    cardsContainer.appendChild(createCard(
+        'BIOS',
+        'fas fa-microchip',
+        [
+            { label: '厂商', value: info.bios.vendor || '未知' },
+            { label: '版本', value: info.bios.version || 'N/A' },
+            { label: '发布日期', value: info.bios.releaseDate || 'N/A' }
+        ]
+    ));
+    
+    // 处理器信息卡片
+    cardsContainer.appendChild(createCard(
+        '处理器',
+        'fas fa-microchip',
+        [
+            { label: '制造商', value: info.cpu.manufacturer || '未知' },
+            { label: '型号', value: info.cpu.brand || '未知' },
+            { label: '主频', value: info.cpu.speed },
+            { label: '最大频率', value: info.cpu.speedMax || 'N/A' },
+            { label: '物理核心', value: info.cpu.physicalCores.toString() },
+            { label: '逻辑核心', value: info.cpu.cores.toString() },
+            { label: '插槽', value: info.cpu.socket || 'N/A' }
+        ]
+    ));
+    
+    // 内存信息卡片
+    cardsContainer.appendChild(createCard(
+        '内存',
+        'fas fa-memory',
+        [
+            { label: '总容量', value: info.memory.total },
+            { label: '可用内存', value: info.memory.free }
+        ]
+    ));
+    
+    // 显卡信息卡片
+    const gpuCards = [];
+    info.graphics.controllers.forEach((gpu, index) => {
+        gpuCards.push(createCard(
+            index === 0 ? '显卡' : `显卡 ${index + 1}`,
+            'fas fa-video',
+            [
+                { label: '型号', value: gpu.name || '未知' },
+                { label: '厂商', value: gpu.vendor || '未知' },
+                { label: '显存', value: gpu.vram || 'N/A' },
+                { label: '总线', value: gpu.bus || 'N/A' }
+            ]
+        ));
+    });
+    gpuCards.forEach(card => cardsContainer.appendChild(card));
+    
+    // 存储设备卡片
+    const diskCards = [];
+    info.disks.forEach((disk, index) => {
+        diskCards.push(createCard(
+            index === 0 ? '存储' : `存储 ${index + 1}`,
+            'fas fa-hdd',
+            [
+                { label: '名称', value: disk.name || '未知' },
+                { label: '类型', value: disk.type || 'N/A' },
+                { label: '容量', value: disk.size },
+                { label: '接口', value: disk.interfaceType || 'N/A' }
+            ]
+        ));
+    });
+    diskCards.forEach(card => cardsContainer.appendChild(card));
+    
+    // 网络信息卡片
+    const networkCards = [];
+    info.network.forEach((net, index) => {
+        networkCards.push(createCard(
+            index === 0 ? '网络' : `网络 ${index + 1}`,
+            net.type === 'wireless' ? 'fas fa-wifi' : 'fas fa-network-wired',
+            [
+                { label: '接口', value: net.name || '未知' },
+                { label: '类型', value: net.type === 'wireless' ? '无线' : '有线' },
+                { label: 'MAC地址', value: net.mac || 'N/A' },
+                { label: '速度', value: net.speed ? `${net.speed} Mbps` : 'N/A' },
+                { label: 'IPv4', value: net.ip4 || 'N/A' },
+                { label: 'IPv6', value: net.ip6 || 'N/A' }
+            ]
+        ));
+    });
+    networkCards.forEach(card => cardsContainer.appendChild(card));
+    
+    // 显示器信息卡片
+    const displayCards = [];
+    info.graphics.displays.forEach((display, index) => {
+        displayCards.push(createCard(
+            index === 0 ? '显示器' : `显示器 ${index + 1}`,
+            'fas fa-tv',
+            [
+                { label: '型号', value: display.model || '未知' },
+                { label: '厂商', value: display.vendor || '未知' },
+                { label: '分辨率', value: display.resolution },
+                { label: '尺寸', value: display.size }
+            ]
+        ));
+    });
+    displayCards.forEach(card => cardsContainer.appendChild(card));
+    
+    // 公告卡片
+    const announcementCard = document.createElement('div');
+    announcementCard.className = 'card announcement-card';
+    announcementCard.innerHTML = `
+        <div class="card-header">
+            <div class="card-title">软件公告</div>
+            <div class="card-icon">
+                <i class="fas fa-bullhorn"></i>
+            </div>
+        </div>
+        <div class="announcement-content">
+            <p>欢迎使用 SimpleXpert 黑苹果专家工具 v1.0.0！</p>
+            <p>本版本新增功能：</p>
+            <ul>
+                <li>支持13代Intel处理器SSDT自动生成</li>
+                <li>新增USB端口一键定制功能</li>
+                <li>优化了硬件信息检测准确性</li>
+            </ul>
+            <p>检测到您的硬件配置：${info.cpu.brand} + ${info.graphics.controllers[0]?.name || '未知显卡'}</p>
+        </div>
+    `;
+    announcementCard.style.gridColumn = '1 / -1';
+    cardsContainer.appendChild(announcementCard);
+}
+
+// 创建卡片辅助函数
+function createCard(title, icon, items) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.animationDelay = `${Math.random() * 0.3}s`;
+    
+    const cardHeader = document.createElement('div');
+    cardHeader.className = 'card-header';
+    
+    const cardTitle = document.createElement('div');
+    cardTitle.className = 'card-title';
+    cardTitle.textContent = title;
+    
+    const cardIcon = document.createElement('div');
+    cardIcon.className = 'card-icon';
+    cardIcon.innerHTML = `<i class="fas ${icon}"></i>`;
+    
+    cardHeader.appendChild(cardTitle);
+    cardHeader.appendChild(cardIcon);
+    
+    const cardBody = document.createElement('div');
+    cardBody.className = 'card-body';
+    
+    items.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'info-row';
+        
+        const label = document.createElement('span');
+        label.className = 'info-label';
+        label.textContent = item.label;
+        
+        const value = document.createElement('span');
+        value.className = 'info-value';
+        value.textContent = item.value;
+        
+        row.appendChild(label);
+        row.appendChild(value);
+        cardBody.appendChild(row);
+    });
+    
+    card.appendChild(cardHeader);
+    card.appendChild(cardBody);
+    
+    return card;
 }
